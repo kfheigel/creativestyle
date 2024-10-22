@@ -66,12 +66,20 @@ class Cart
     public function removeCartItem(CartItem $cartItem): static
     {
         if ($this->cartItems->removeElement($cartItem)) {
-            // set the owning side to null (unless already changed)
             if ($cartItem->getCart() === $this) {
                 $cartItem->setCart(null);
             }
         }
 
         return $this;
+    }
+
+    public function getTotalPrice(): float
+    {
+        $total = 0.0;
+        foreach ($this->cartItems as $cartItem) {
+            $total += $cartItem->getTotalPrice();
+        }
+        return $total;
     }
 }
