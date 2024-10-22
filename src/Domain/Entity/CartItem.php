@@ -2,30 +2,37 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Domain\Entity;
 
-use App\Repository\CartItemRepository;
+use Doctrine\DBAL\Types\Types;
+use Symfony\Component\Uid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use App\Infrastructure\Repository\CartItemRepository;
 
 #[ORM\Entity(repositoryClass: CartItemRepository::class)]
 class CartItem
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: UuidType::NAME, unique: true)]
+    private Uuid $id;
 
     #[ORM\ManyToOne(inversedBy: 'cartItems')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Product $product = null;
 
-    #[ORM\Column]
-    private ?int $quantity = null;
+    #[ORM\Column(type: Types::INTEGER)]
+    private int $quantity;
 
     #[ORM\ManyToOne(inversedBy: 'cartItems')]
     private ?Cart $cart = null;
 
-    public function getId(): ?int
+    public function __construct(?Uuid $id = null)
+    {
+        $this->id = $id ?? Uuid::v4();
+    }
+
+    public function getId(): Uuid
     {
         return $this->id;
     }
@@ -42,7 +49,7 @@ class CartItem
         return $this;
     }
 
-    public function getQuantity(): ?int
+    public function getQuantity(): int
     {
         return $this->quantity;
     }

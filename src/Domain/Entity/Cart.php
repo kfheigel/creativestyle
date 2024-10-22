@@ -2,23 +2,25 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Domain\Entity;
 
-use App\Repository\CartRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use DateTimeImmutable;
+use Symfony\Component\Uid\Uuid;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Doctrine\Common\Collections\ArrayCollection;
+use App\Infrastructure\Repository\CartRepository;
 
 #[ORM\Entity(repositoryClass: CartRepository::class)]
 class Cart
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: UuidType::NAME, unique: true)]
+    private Uuid $id;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    private ?DateTimeImmutable $createdAt = null;
 
     /**
      * @var Collection<int, CartItem>
@@ -26,26 +28,21 @@ class Cart
     #[ORM\OneToMany(targetEntity: CartItem::class, mappedBy: 'cart')]
     private Collection $cartItems;
 
-    public function __construct()
+    public function __construct(?Uuid $id = null)
     {
+        $this->id = $id ?? Uuid::v4();
         $this->cartItems = new ArrayCollection();
+        $this->createdAt = new DateTimeImmutable();
     }
 
-    public function getId(): ?int
+    public function getId(): Uuid
     {
         return $this->id;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?DateTimeImmutable
     {
         return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
-    {
-        $this->createdAt = $createdAt;
-
-        return $this;
     }
 
     /**

@@ -2,27 +2,28 @@
 
 declare(strict_types=1);
 
-namespace App\Entity;
+namespace App\Domain\Entity;
 
-use App\Repository\ProductRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
-use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 use Symfony\Component\Uid\Uuid;
+use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\Collection;
+use Symfony\Bridge\Doctrine\Types\UuidType;
+use Doctrine\Common\Collections\ArrayCollection;
+use App\Infrastructure\Repository\ProductRepository;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 class Product
 {
     #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
+    #[ORM\Column(type: UuidType::NAME, unique: true)]
+    private Uuid $id;
 
-    #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private string $name;
 
-    #[ORM\Column]
-    private ?float $price = null;
+    #[ORM\Column(type: Types::FLOAT)]
+    private float $price;
 
     /**
      * @var Collection<int, CartItem>
@@ -30,24 +31,24 @@ class Product
     #[ORM\OneToMany(targetEntity: CartItem::class, mappedBy: 'product', orphanRemoval: true)]
     private Collection $cartItems;
 
-    public function __construct()
+    public function __construct(
+        string $name,
+        float $price,
+        ?Uuid $id = null
+    )
     {
+        $this->name = $name;
+        $this->price = $price;
+        $this->id = $id ?? Uuid::v4();
         $this->cartItems = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public function getId(): Uuid
     {
         return $this->id;
     }
 
-    public function setId(Uuid $id): static
-    {
-        $this->id = $id;
-
-        return $this;
-    }
-
-    public function getName(): ?string
+    public function getName(): string
     {
         return $this->name;
     }
@@ -59,7 +60,7 @@ class Product
         return $this;
     }
 
-    public function getPrice(): ?float
+    public function getPrice(): float
     {
         return $this->price;
     }

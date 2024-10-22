@@ -1,4 +1,4 @@
-run: build up composer-install cache-clear
+run: build up composer-install cache-clear seed
 test: phpcs lint phpspec unit-tests integration-tests phpstan-run
 
 build:
@@ -26,7 +26,7 @@ seed:
 	docker exec -it creativestyle bin/console doctrine:database:drop --force
 	docker exec -it creativestyle bin/console doctrine:database:create
 	docker exec -it creativestyle bin/console doctrine:migrations:migrate --no-interaction
-	docker exec -it creativestyle bin/console support:fixture:cartItem
+	docker exec -it creativestyle bin/console support:fixture:product
 	docker exec -it creativestyle bin/console doctrine:database:create --env=test --no-interaction
 	docker exec -it creativestyle bin/console doctrine:migrations:migrate --env=test --no-interaction
 

@@ -1,0 +1,47 @@
+[
+    {
+        "id": "7061eee1-845a-4bab-b053-67e5f15992e8",
+        "name": "Apple pen",
+        "price": 0.69
+    },
+    {
+        "id": "da092594-facb-42e7-8dfd-91ac152c04ab",
+        "name": "Pineapple pen",
+        "price": 4.20
+    },
+    {
+        "id": "ffb65cf0-9746-409d-b393-dce3f00409b0",
+        "name": "Canva",
+        "price": 5.25
+    },
+    {
+        "id": "f040ce66-5efd-457e-922f-9a7323435bf5",
+        "name": "Drawing charcoal",
+        "price": 0.5
+    },
+    {
+        "id": "0142dcf5-5e88-44ee-ad06-f30bd4b89b19",
+        "name": "Kneadable art eraser",
+        "price": 2.00
+    },
+    {
+        "id": "071078d3-4f98-4867-8944-5883df71587a",
+        "name": "Painter's easel",
+        "price": 19.99
+    },
+    {
+        "id": "d99471c2-32f4-4aba-bb65-4093b74101c6",
+        "name": "John Paul II Painting",
+        "price": 21.37
+    },
+    {
+        "id": "dfc61c5f-6481-4d2d-ba09-eb500c6a98f4",
+        "name": "Brush",
+        "price": 4.39
+    },
+    {
+        "id": "a769a005-ccee-4caa-9b64-ab621cf5f9dd",
+        "name": "Pencil",
+        "price": 1.99
+    }
+]
