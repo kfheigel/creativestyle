@@ -25,7 +25,7 @@ final class SalesController extends SalesBaseController
     ) {
     }
 
-    #[Route('/products', name: 'product_list')]
+    #[Route('/products', name: 'product_list', methods: ['GET'])]
     public function listProducts(): Response
     {
         $products = $this->productRepository->findAll();
@@ -35,7 +35,7 @@ final class SalesController extends SalesBaseController
         ]);
     }
 
-    #[Route('/cart', name: 'cart_view')]
+    #[Route('/cart', name: 'cart_view', methods: ['GET'])]
     public function viewCart(Request $request): Response
     {
         $cart = $this->getCartFromSession($request);
@@ -64,7 +64,7 @@ final class SalesController extends SalesBaseController
         return $this->redirectToRoute('cart_view');
     }
 
-    #[Route('/cart/clear', name: 'cart_clear')]
+    #[Route('/cart/clear', name: 'cart_clear', methods: ['GET'])]
     public function clearCart(Request $request): Response
     {
         $this->saveCartToSession($request, new Cart());
