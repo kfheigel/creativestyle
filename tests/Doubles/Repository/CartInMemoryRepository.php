@@ -2,28 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Repository;
+namespace App\Tests\Doubles\Repository;
 
 use App\Domain\Entity\Cart;
 use Symfony\Component\Uid\Uuid;
-use Doctrine\Persistence\ManagerRegistry;
 use App\Domain\Repository\CartRepositoryInterface;
 use App\Domain\Repository\NonExistentEntityException;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
-/**
- * @extends ServiceEntityRepository<Cart>
- */
-final class CartRepository extends ServiceEntityRepository implements CartRepositoryInterface
+final class CartInMemoryRepository implements CartRepositoryInterface
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Cart::class);
-    }
+    private array $entities = [];
 
     public function save(Cart $cart): void
     {
-        $this->getEntityManager()->persist($cart);
+        $this->entities[$cart->getId()->toRfc4122()] = $cart;
     }
 
     public function get(Uuid $id): Cart
@@ -39,6 +31,6 @@ final class CartRepository extends ServiceEntityRepository implements CartReposi
 
     public function findOne(Uuid $id): ?Cart
     {
-        return $this->find($id);
+        return $this->entities[$id->toRfc4122()] ?? null;
     }
 }

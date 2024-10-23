@@ -22,8 +22,7 @@ class SeedProductCommand extends Command
     public function __construct(
         private readonly ProductRepositoryInterface $productRepository,
         private readonly EntityManagerInterface $em
-    )
-    {
+    ) {
         parent::__construct();
     }
 

@@ -2,28 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Repository;
+namespace App\Tests\Doubles\Repository;
 
 use App\Domain\Entity\Product;
 use Symfony\Component\Uid\Uuid;
-use Doctrine\Persistence\ManagerRegistry;
 use App\Domain\Repository\NonExistentEntityException;
 use App\Domain\Repository\ProductRepositoryInterface;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
-/**
- * @extends ServiceEntityRepository<Product>
- */
-final class ProductRepository extends ServiceEntityRepository implements ProductRepositoryInterface
+final class ProductInMemoryRepository implements ProductRepositoryInterface
 {
-    public function __construct(ManagerRegistry $registry)
-    {
-        parent::__construct($registry, Product::class);
-    }
+    private array $entities = [];
 
     public function save(Product $product): void
     {
-        $this->getEntityManager()->persist($product);
+        $this->entities[$product->getId()->toRfc4122()] = $product;
     }
 
     public function get(Uuid $id): Product
@@ -39,19 +31,27 @@ final class ProductRepository extends ServiceEntityRepository implements Product
 
     public function findOne(Uuid $id): ?Product
     {
-        return $this->find($id);
+        return $this->entities[$id->toRfc4122()] ?? null;
     }
 
     public function findOneByName(string $name): ?Product
     {
-        /** @var Product|null $product */
-        $product = $this->findOneBy(["name" => $name]);
+        foreach ($this->entities as $id => $product) {
+            $found = true;
 
-        return $product;
+            if ($product->getName() !== $name) {
+                $found = false;
+            }
+
+            if ($found) {
+                return $this->entities[$id];
+            }
+        }
+        return null;
     }
 
     public function findAll(): array
     {
-        return $this->findBy([]);
+        return $this->entities;
     }
 }

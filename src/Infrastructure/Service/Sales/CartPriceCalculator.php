@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Infrastructure\Service;
+namespace App\Infrastructure\Service\Sales;
 
 use App\Domain\Entity\Cart;
 
-class Sales
+final class CartPriceCalculator
 {
     private array $discountPolicies;
 
@@ -15,10 +15,18 @@ class Sales
         $this->discountPolicies = $discountPolicies;
     }
 
-    public function getBestDiscount(Cart $cart): float
+    public function getFinalPrice(Cart $cart): float
+    {
+        $totalPrice = $cart->getTotalPrice();
+        $bestDiscount = $this->getBestDiscount($cart);
+
+        return $totalPrice - $bestDiscount;
+    }
+
+    private function getBestDiscount(Cart $cart): float
     {
         $bestDiscount = 0.0;
-        
+
         foreach ($this->discountPolicies as $policy) {
             $discount = $policy->apply($cart);
             if ($discount > $bestDiscount) {
@@ -26,14 +34,6 @@ class Sales
             }
         }
 
-        return $bestDiscount;
-    }
-
-    public function getFinalPrice(Cart $cart): float
-    {
-        $totalPrice = $cart->getTotalPrice();
-        $bestDiscount = $this->getBestDiscount($cart);
-
-        return $totalPrice - $bestDiscount;
+        return round($bestDiscount, 2);
     }
 }

@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>Cart</h1>
+
+{% if cart.cartItems|length > 0 %}
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Quantity</th>
+                <th>Unit price</th>
+                <th>Total price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for cartItem in cart.cartItems %}
+            <tr>
+                <td>{{ cartItem.product.name }}</td>
+                <td>{{ cartItem.quantity }}</td>
+                <td>{{ cartItem.product.price }}</td>
+                <td>{{ cartItem.quantity * cartItem.product.price }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <p>Final price: {{ finalPrice }}</p>
+    <a href="{{ path('cart_clear') }}">Clear cart</a>
+{% else %}
+    <p>Your cart is empty</p>
+{% endif %}
+
+<a href="{{ path('product_list') }}">Back to product list</a>
+{% endblock %}

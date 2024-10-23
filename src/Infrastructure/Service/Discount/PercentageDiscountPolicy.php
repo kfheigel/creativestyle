@@ -1,16 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Service\Discount;
 
-use DiscountPolicy;
 use App\Domain\Entity\Cart;
+use App\Domain\Service\DiscountPolicyInterface;
 
-class PercentageDiscountPolicy implements DiscountPolicy
+final class PercentageDiscountPolicy implements DiscountPolicyInterface
 {
     private float $threshold;
     private float $percentage;
 
-    public function __construct(float $threshold, float $percentage)
+    public function __construct(float $threshold = 100, float $percentage = 10)
     {
         $this->threshold = $threshold;
         $this->percentage = $percentage;

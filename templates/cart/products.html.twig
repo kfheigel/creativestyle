@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1>Lista produktów</h1>
+
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Add to cart</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for product in products %}
+        <tr>
+            <td>{{ product.name }}</td>
+            <td>{{ product.price }} zł</td>
+            <td>
+                <form method="post" action="{{ path('cart_add', {id: product.id}) }}">
+                    <input type="number" name="quantity" value="1" min="1">
+                    <button type="submit">Add to cart</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<a href="{{ path('cart_view') }}">Cart</a>
+{% endblock %}

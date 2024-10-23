@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Infrastructure\Service\Discount;
 
-use DiscountPolicy;
 use App\Domain\Entity\Cart;
+use App\Domain\Service\DiscountPolicyInterface;
 
-class EveryFifthProductFreeDiscountPolicy implements DiscountPolicy
+final class EveryFifthProductFreeDiscountPolicy implements DiscountPolicyInterface
 {
     public function apply(Cart $cart): float
     {

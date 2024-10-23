@@ -2,9 +2,11 @@
 
 declare(strict_types=1);
 
+namespace App\Domain\Service;
+
 use App\Domain\Entity\Cart;
 
-interface DiscountPolicy
+interface DiscountPolicyInterface
 {
     public function apply(Cart $cart): float;
 }

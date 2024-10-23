@@ -35,8 +35,7 @@ class Product
         string $name,
         float $price,
         ?Uuid $id = null
-    )
-    {
+    ) {
         $this->name = $name;
         $this->price = $price;
         $this->id = $id ?? Uuid::v4();
