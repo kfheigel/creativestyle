@@ -17,7 +17,7 @@ final class CartSummaryService
     ): Cart {
         $foundItem = null;
         foreach ($cart->getCartItems() as $cartItem) {
-            if ($cartItem->getProduct()->getId() == $product->getId()) {
+            if ($cartItem->getProduct()?->getId() == $product->getId()) {
                 $foundItem = $cartItem;
                 break;
             }

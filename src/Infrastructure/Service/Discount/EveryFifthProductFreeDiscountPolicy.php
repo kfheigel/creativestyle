@@ -17,7 +17,7 @@ final class EveryFifthProductFreeDiscountPolicy implements DiscountPolicyInterfa
             $quantity = $cartItem->getQuantity();
             if ($quantity >= 5) {
                 $freeItems = floor($quantity / 5);
-                $discount += $freeItems * $cartItem->getProduct()->getPrice();
+                $discount += $freeItems * $cartItem->getProduct()?->getPrice();
             }
         }
 

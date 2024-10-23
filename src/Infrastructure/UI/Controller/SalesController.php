@@ -19,7 +19,6 @@ final class SalesController extends SalesBaseController
 {
     public function __construct(
         private CartPriceCalculator $cartPriceCalculator,
-        private CartItemRepositoryInterface $cartItemRepository,
         private ProductRepositoryInterface $productRepository,
         private CartSummaryService $cartSummaryService
     ) {
