@@ -25,7 +25,7 @@ final class SalesController extends SalesBaseController
     ) {
     }
 
-    #[Route('/products', name: 'product_list', methods: ['GET'])]
+    #[Route('/', name: 'product_list', methods: ['GET'])]
     public function listProducts(): Response
     {
         $products = $this->productRepository->findAll();

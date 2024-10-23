@@ -82,10 +82,10 @@ This command performs all tests withing project, and also runs static code analy
 
 | HTTP Method | Endpoint         | Description                                 | Request Parameters     |
 |-------------|------------------|---------------------------------------------|------------------------|
-| GET         | `/products`       | Returns a list of all available products.   | N/A                    |
-| GET         | `/cart`           | Displays the current contents of the cart and the final price with applicable discounts. | N/A                    |
-| POST        | `/cart/add/{id}`  | Adds a product to the cart with a specified quantity. | `quantity` (optional, default: 1) |
-| GET         | `/cart/clear`     | Clears the cart, removing all items.        | N/A                    |
+| GET         | `/`              | Returns a list of all available products.   | N/A                    |
+| GET         | `/cart`          | Displays the current contents of the cart and the final price with applicable discounts. | N/A                    |
+| POST        | `/cart/add/{id}` | Adds a product to the cart with a specified quantity. | `quantity` (optional, default: 1) |
+| GET         | `/cart/clear`    | Clears the cart, removing all items.        | N/A                    |
 
 ### Detailed Description of Endpoints:
 
